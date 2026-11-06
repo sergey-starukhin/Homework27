@@ -58,7 +58,7 @@ public:
 	bool operator<(const MyString& other) const;
 	MyString& operator=(const MyString& other);
 	MyString& operator+=(const MyString& other);
-	MyString operator+(const MyString& other) const;
+	//MyString operator+(const MyString& other) const;  Переписан для Уровня 3.
 	MyString& operator=(MyString&& other);
 
 	char& operator[](int index)
@@ -73,6 +73,7 @@ public:
 
 	//friend operators
 	friend ostream& operator<<(ostream& os, const MyString& str);
+	friend MyString operator+(const MyString& left_, const MyString& right_);
 
 	// other methods
 	void print() const;

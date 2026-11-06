@@ -93,6 +93,9 @@ using namespace std;
 // ===== Ваш код =====
 
 ostream& operator<<(ostream& os, const MyString& str);
+MyString operator+(const MyString& left_, const MyString& right_);
+void bubbleSort(MyString* str, int size);
+void printArr(MyString* str, int size);
 
 //main:
 //6. Створіть const MyString title("OOP"); виведіть title[0].Спробуйте title[0] = 'o'; — прочитайте помилку і закоментуйте.
@@ -103,7 +106,7 @@ int main()
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
 
-    //РІВЕНЬ 1.
+    //РІВЕНЬ 1. -------------------------------------------------------------------------------------------------------
     MyString greeting("Hello");
     MyString copy = greeting;
     copy[0] = 'J';
@@ -138,14 +141,29 @@ int main()
     // Длина в два раза больше, чем количество символов
     // Потому что кодировка кириллицы требует 2 байта на символ, а не 1
 
-    //РІВЕНЬ 2.
-    MyString names[5] = { "Олена", "Марко", "Анна", "Тарас", "Богдан" };
 
+    //РІВЕНЬ 2. -------------------------------------------------------------------------------------------------------
+	const int size = 5;
+    MyString names[size] = { "Олена", "Марко", "Анна", "Тарас", "Богдан" };
+
+    cout << "Массив до сортировки: " << endl;
+    printArr(names, size);
+    bubbleSort(names, size);
+    cout << "----------------" << endl << "Массив после сортировки: " << endl;
+    printArr(names, size);
+
+    //РІВЕНЬ 3. Рядок ліворуч, >> і bool(бонус)
+    //1. Спробуйте MyString hello = "Hello, " + name; — не компілюється.Замініть метод operator+ ДРУЖНЬОЮ функцією
+    //    MyString operator+(const MyString & left, const MyString & right) і перевірте знову.
+    //    2. Дружній operator>> — читає одне слово в буфер char buffer[256], потім присвоює його рядку : s = buffer;
+    //3. explicit operator bool() const — true, якщо рядок не порожній.Перевірте if (!empty) і if (input).
+
+    MyString hello = "Hello, " + name;
+    hello.print();
 
     return 0;
 }
 
-//-дружній operator<< — виводить рядок.Якщо data == nullptr (знадобиться на рівні 2), нічого не виводить.
 ostream& operator<<(ostream& os, const MyString& str)
 {
 	if (str.data != nullptr)
@@ -153,6 +171,36 @@ ostream& operator<<(ostream& os, const MyString& str)
 		os << str.data;
 	}
     return os;
+}
+
+MyString operator+(const MyString& left_, const MyString& right_)
+{
+    MyString result = left_;
+    result += right_;
+    return result;
+}
+
+void bubbleSort(MyString* str, int size)
+{
+    for (int i = 0; i < size - 1; i++)
+    {
+        for (int j = size - 1; j > i; j--)
+        {
+            if (str[j] < str[j - 1])
+            {
+                MyString temp = std::move(str[j]);
+                str[j] = std::move(str[j - 1]);
+                str[j - 1] = std::move(temp);
+            }
+        }
+    }
+
+}
+
+void printArr(MyString* str, int size)
+{
+    for (int i = 0; i < size; i++)
+        str[i].print();
 }
 
 /*

@@ -22,12 +22,13 @@ MyString& MyString::operator+=(const MyString& other)
 	return *this;
 }
 
-MyString MyString::operator+(const MyString& other) const
-{
-	MyString result = *this;
-	result += other;
-	return result;
-}
+//MyString MyString::operator+(const MyString& other) const
+//{
+//	MyString result = *this;
+//	result += other;
+//	return result;
+//}
+// Переписан для Уровня 3.
 
 MyString& MyString::operator=(MyString&& other)
 {
