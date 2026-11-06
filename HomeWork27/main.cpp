@@ -2,6 +2,7 @@
 #include <cstring>
 #include <utility>
 #include <windows.h>
+#include "MyString.h"
 
 using namespace std;
 
@@ -91,12 +92,67 @@ using namespace std;
 
 // ===== Ваш код =====
 
+ostream& operator<<(ostream& os, const MyString& str);
+
+//main:
+//6. Створіть const MyString title("OOP"); виведіть title[0].Спробуйте title[0] = 'o'; — прочитайте помилку і закоментуйте.
+//7. Виведіть довжину MyString("Привіт").Поясніть результат(запитання 4).
+
 int main()
 {
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
 
+    //РІВЕНЬ 1.
+    MyString greeting("Hello");
+    MyString copy = greeting;
+    copy[0] = 'J';
+
+    cout << greeting << endl;
+	cout << copy << endl;
+
+	MyString empty;
+	empty.print();
+
+    MyString name("World");
+    MyString message = greeting + ", " + name + "!";
+    message.print();
+
+	name += "!!!";
+	cout << name << endl;
+
+    if (greeting == "Hello")
+        cout << "greeting равно 'Hello'!" << endl;
+    if (copy != greeting)
+        cout << "copy и greeting не равны!" << endl;
+
+    MyString a("A"), b("B"), c("C");
+	a = b = c;
+	cout << a << " " << b << " " << c << endl;
+
+    const MyString title("OOP");
+	cout << title[0] << endl;
+    //title[0] = 'o'; Ошибка E0137. Выражение должно быть с допустимым для изменения lvalue
+
+    cout << MyString("Привіт").getLength() << endl;
+    // Длина в два раза больше, чем количество символов
+    // Потому что кодировка кириллицы требует 2 байта на символ, а не 1
+
+    //РІВЕНЬ 2.
+    MyString names[5] = { "Олена", "Марко", "Анна", "Тарас", "Богдан" };
+
+
     return 0;
+}
+
+//-дружній operator<< — виводить рядок.Якщо data == nullptr (знадобиться на рівні 2), нічого не виводить.
+ostream& operator<<(ostream& os, const MyString& str)
+{
+	if (str.data != nullptr)
+	{
+		os << str.data;
+	}
+    return os;
 }
 
 /*
